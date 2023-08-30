@@ -14,41 +14,57 @@ The main goal is to create a lightweight, simple and extensible environment to t
 The following functions are defined in the main.py file:
 
 ### Web Application endpoints (rendered .html)
-1. Homepage
+1. Homepage (vehicle list)
+```python
 @app.route('/')
 def web_home():
+```
 
-2. Reset database page
-@app.route('/reset')
-def web_reset():
-
-3. Vehicle logs page
+2. Vehicle logs page
+```python
 @app.route('/vehicle/<vehicle_name>', methods=['GET'])
 def web_get_vehicle_logs(vehicle_name):
+```
+
+3. Reset database page
+```python
+@app.route('/reset')
+def web_reset():
+```
 
 ### API endpoints (JSON)
 1. Generates an array of vehicles (Data format defined in related projects); Front-end application consumes the data
+```python
 @app.route('/api/vehicle/instant', methods=['GET'])
 def api_get_vehicle_list():
+```
 
 2. Generates an array of messages related to the chosen vehicle
+```python
 @app.route('/api/vehicle/<vehicle_name>', methods=['GET'])
 def api_get_vehicle_logs(vehicle_name):
+```
 
 3. Inserts/updates vehicle information
+```python
 @app.route('/api/vehicle', methods=['POST'])
 def api_update_vehicle():
+```
 
 ## How run the application
 To use the application, first clone the GitHub repository to your local machine. Then, open the main.py file to understand and make eventual changes to meet your requirements.
 
 Don't forget to install the requirements:
 
+```shell
 pip install -r requirements.txt
+```
 
 Finally, start the Flask internal server by running the following command:
 
-python main.py
+```shell
+python3 main.py
+```
 
 ... or either use the flags --debug to enable debug messages and --reset to reset the database.
 
@@ -56,6 +72,8 @@ The application will be available at http://localhost:5000.
 
 After proper preparation, we recommend deployment using gunicorn to ensure better performance. Just install the requirements on requirements.txt and execute the following command:
 
+```shell
 gunicorn -b 0.0.0.0 --workers <number_of_workers> --threads <number_of_threads> main:app
+```
 
 I can also generate a README.md file that includes more information, such as the project's dependencies, installation instructions, and usage examples. Just let me know what you need.
