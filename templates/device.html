@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+
+{% block custom_scripts %}
+<script>
+  setTimeout(function() {
+    location.reload();
+  }, 2000);
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+      <div class="col py-4">
+        <a type="button" class="btn btn-primary left" href="/">Back to device list</a>
+      </div>
+      <div class="col py-4 text-center">
+        <h2 class="mb-4 fw-bold">Communication Logs</h2>
+      </div>
+    </div>
+
+    <div class="card-header py-3">
+      <h4 class="my-0 fw-normal">Device: <span class="fw-bold">{{ device_name }}</span></h4>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Timestamp</th>
+            <th scope="col">Sender</th>
+            <th scope="col">Receiver</th>
+            <th scope="col">Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+            <tr>
+              <th scope="row">{{ log['timestamp'] }}</th>
+              <td>{{ log['sender'] }}</td>
+              <td>{{ log['receiver'] }}</td>
+              <td>{{ log['data'] }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    </div>
+    
+
+{% endblock %}

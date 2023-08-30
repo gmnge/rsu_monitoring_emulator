@@ -1,0 +1,9 @@
+{
+    "sender":"test_vehicle_2",
+    "receiver": "RSU",
+    "data":{
+        "velocity": "12",
+        "angle": "-12",
+        "distance": "2"
+    }
+}

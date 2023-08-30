@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form, render_field, render_form_row %}
+
+{% block custom_scripts %}
+<script>
+  setTimeout(function() {
+    location.reload();
+  }, 5000);
+</script>
+{% endblock %}
+
+{% block content %}
+    <h2 class="pb-4">List of detected devices</h2>
+    
+    <div class="row row-cols-1 position-relative">
+      <div class="position-absolute" style="text-align: left; max-width: 50%;">
+        <a class="btn btn-primary" href="/">Reload</a>
+      </div>
+      <div class="position-absolute" style="left: 50%; text-align: right; max-width: 50%;">
+        <a class="btn btn-danger" href="/reset" onclick="return confirm('Are you sure?')" style="right: 0">Reset DB</a>
+      </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 mb-3 my-5 text-left">
+        {% if size == 0 %}
+        <p>Wating for connections...</p>
+        {% endif %}
+        {% for device in device_list %}
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <h5 class="my-0 fw-normal">Device: {{ device['sender'] }}</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>Latest connection:</li>
+                <li>{{ device['timestamp'] }}</li>
+              </ul>
+              <a class="w-100 btn btn-lg btn-outline-primary" href="/vehicle/{{ device['sender'] }}">Communication logs</a>            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+        <!-- <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm">
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal">Pro</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title">$15<small class="text-muted fw-light">/mo</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>20 users included</li>
+                <li>10 GB of storage</li>
+                <li>Priority email support</li>
+                <li>Help center access</li>
+              </ul>
+              <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mb-4 rounded-3 shadow-sm border-primary">
+            <div class="card-header py-3 text-white bg-primary border-primary">
+              <h4 class="my-0 fw-normal">Enterprise</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title">$29<small class="text-muted fw-light">/mo</small></h1>
+              <ul class="list-unstyled mt-3 mb-4">
+                <li>30 users included</li>
+                <li>15 GB of storage</li>
+                <li>Phone and email support</li>
+                <li>Help center access</li>
+              </ul>
+              <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+{% endblock %}
