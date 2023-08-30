@@ -12,12 +12,12 @@ app.secret_key = 'dev'
 app.name = 'RSU - Device Monitoring (Emulator)'
 bootstrap = Bootstrap5(app)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def web_home():
     db_device_list = rsu_db.get_vehicle_list() # contains data regarding the connected devices
     return render_template('home.html', device_list=db_device_list, size=len(db_device_list))
 
-@app.route('/reset')
+@app.route('/reset', methods=['GET'])
 def web_reset():
     rsu_db.restart_database()
     db_device_list = rsu_db.get_vehicle_list() # contains data regarding the connected devices
