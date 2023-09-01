@@ -2,8 +2,11 @@
     "sender":"test_vehicle_2",
     "receiver": "RSU",
     "data":{
+        "isLeader": "False",
         "velocity": "12",
         "angle": "-12",
-        "distance": "2"
+        "distance": "2",
+        "velocitySetpoint": "12",
+        "distanceSetpoint": "2"
     }
 }

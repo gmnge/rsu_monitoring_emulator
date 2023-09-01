@@ -42,17 +42,44 @@ def api_get_vehicle_list():
         device_data_json = json.loads(device['data'])
         # print(type(device_data_json))
         
-        velocity = device_data_json['velocity']
-        angle = device_data_json['angle']
-        distance = device_data_json['distance']
+        # Acquiring data from JSON
+        try:
+            velocity = device_data_json['velocity']
+        except:
+            pass
+        try:
+            velocitySetpoint = device_data_json['velocitySetpoint']
+        except:
+            pass
+        try:
+            angle = device_data_json['angle']
+        except:
+            pass
+        try:
+            distance = device_data_json['distance']
+        except:
+            pass
+        try:
+            distanceSetpoint = device_data_json['distanceSetpoint']
+        except:
+            pass
+        try:
+            isLeader = device_data_json['isLeader']
+        except:
+            pass
+
         vehicles['vehicles'].append(
             {
                 'overview': {
                     'name': device_name,
-                    'isLeader': False,
+                    'isLeader': str(isLeader),
                     'velocity': {
                         'icon': 'speed',
                         'value': str(velocity)
+                    },
+                    'velocitySetpoint': {
+                        'icon': 'bullseye-arrow',
+                        'value': str(velocitySetpoint)
                     },
                     'angle': {
                         'icon':'speed',
@@ -61,6 +88,10 @@ def api_get_vehicle_list():
                     'distance': {
                         'icon':'speed',
                         'value': str(distance)
+                    },
+                    'distanceSetpoint': {
+                        'icon':'bullseye-arrow',
+                        'value': str(distanceSetpoint)
                     }
                 }
             }
