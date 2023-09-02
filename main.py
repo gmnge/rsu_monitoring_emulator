@@ -119,11 +119,8 @@ def api_update_vehicle():
     # curl -X POST http://localhost:5000/device -H 'Content-Type: application/json' -d '{"sender":"vehicle1",receiver: "vehicle2", "data":"data_127361827361827"}'
     errors = []
     if request.method == "POST":
-        # get url that the user has entered
         try:
-            # gets the payload of the request in plain-text below
-            # content = request.get_data().decode()
-            # gets a json from the request's payload    
+            # Grabs a json from the request's payload    
             request_payload_json = request.json
 
             sender = "ND"
@@ -139,15 +136,17 @@ def api_update_vehicle():
             except:
                 pass
             try:
-                data = str(request_payload_json['data'])
+                data = json.dumps(str(request_payload_json['data']))
             except:
                 pass
             
-            # debug printing below
+            # Debug printing below
             # print(request.remote_addr+" - Devices: "+sender+" / "+receiver+" - Data: "+data)
-            # columns = ['sender', 'receiver', 'data', 'timestamp']
-            values = [sender, receiver, json.dumps(data), datetime.datetime.now()]  # Replace with the values for the new line
-            rsu_db.update_vehicle(values)
+            
+            # The message is saved in the database - the timestamp is generated automatically
+            # An array is generated with each field of the message: sender, receiver, data and the timestamp
+            message = [sender, receiver, data, datetime.datetime.now()]
+            rsu_db.update_vehicle(message)
             return '', 200
         except:
             errors.append(
@@ -161,11 +160,11 @@ if __name__ == '__main__':
         if sys.argv.index('--reset') != -1:
             rsu_db.restart_database()
         if sys.argv.index('--debug') == -1:
-            app.run(debug=False, host='0.0.0.0')
+            app.run(debug=False, host='0.0.0.0', port=8000)
         else:
-            app.run(debug=True, host='0.0.0.0')
+            app.run(debug=True, host='0.0.0.0', port=8000)
     except:
-        app.run(debug=False, host='0.0.0.0')
+        app.run(debug=False, host='0.0.0.0', port=8000)
         
     
 
