@@ -68,7 +68,13 @@ python3 main.py
 
 ... or either use the flags --debug to enable debug messages and --reset to reset the database.
 
-The application will be available at http://localhost:5000.
+The application will be available at http://localhost:8000.
+
+In order to test incoming messages, use CURL. An example test.json is available to be sent:
+
+```shell
+curl -X POST -H "Content-Type: application/json" -d @test.json http://localhost:8000/api/vehicle
+```
 
 After proper preparation, we recommend deployment using gunicorn to ensure better performance. Just install the requirements on requirements.txt and execute the following command:
 
