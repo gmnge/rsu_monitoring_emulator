@@ -159,12 +159,11 @@ if __name__ == '__main__':
     try:
         if sys.argv.index('--reset') != -1:
             rsu_db.restart_database()
-        if sys.argv.index('--debug') == -1:
-            app.run(debug=False, host='0.0.0.0', port=8000)
+            app.run(debug=True, host='0.0.0.0', port=8000)
         else:
             app.run(debug=True, host='0.0.0.0', port=8000)
     except:
-        app.run(debug=False, host='0.0.0.0', port=8000)
+        app.run(debug=True, host='0.0.0.0', port=8000)
         
     
 
