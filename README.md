@@ -60,13 +60,13 @@ Don't forget to install the requirements:
 pip install -r requirements.txt
 ```
 
-Finally, start the Flask internal server by running the following command:
+Finally, start the Flask internal debug server by running the following command:
 
 ```shell
 python3 main.py
 ```
 
-... or either use the flags --debug to enable debug messages and --reset to reset the database.
+... or either use the flag --reset to reset the database.
 
 The application will be available at http://localhost:8000.
 
