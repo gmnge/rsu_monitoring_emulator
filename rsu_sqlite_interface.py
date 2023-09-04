@@ -43,28 +43,7 @@ def update_value(db_path, table_name, column_name, new_value, condition_column, 
     except:
         return False
 
-def update_values(db_path, table_name, column_names, new_values, condition_column, condition_value) ->  bool:
-    try:
-        # Connect to the SQLite database
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
-
-        # Create the UPDATE query with placeholders
-        query = f"UPDATE {table_name} SET {','.join(column_names)} = ? WHERE {condition_column} = ?"
-
-        # Execute the query with the new values and condition value
-        cursor.execute(query, tuple(new_values) + (condition_value,))
-
-        # Commit the changes to the database
-        conn.commit()
-
-        # Close the database connection
-        cursor.close()
-        conn.close()
-    except:
-        return False
-
-def is_value_pŕesent(db_path, table_name, column_name, condition_value) -> bool:
+def is_value_present(db_path, table_name, column_name, condition_value) -> bool:
     # Connect to the SQLite database
     conn = sqlite3.connect('file:'+db_path+'?mode=ro', uri=True)
     cursor = conn.cursor()

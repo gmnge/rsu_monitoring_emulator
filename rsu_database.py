@@ -13,19 +13,20 @@ def get_vehicle_logs_json_list(vehicle_name):
 
 def update_vehicle(message_array):
     # If vehicle already present in status_table, the data is updated and logged
-    if rsu_sqlite_interface.is_value_pŕesent(database_path, status_table, 'sender', message_array[0]):
+    if rsu_sqlite_interface.is_value_present(database_path, status_table, 'sender', message_array[0]):
+        # Status data updated
+        # rsu_sqlite_interface.update_values(database_path, status_table, ('sender', 'receiver', 'data', 'timestamp'), tuple(message_array), 'sender', message_array[0])
+        rsu_sqlite_interface.update_value(database_path, status_table, 'data', message_array[2], 'sender', message_array[0])
+        rsu_sqlite_interface.update_value(database_path, status_table, 'timestamp', message_array[3], 'sender', message_array[0])
         # Logging data always appended    
-        rsu_sqlite_interface.insert_values(database_path, logging_table, message_array)        
-        # Update the values of the columns in the status table in case it is present
-        rsu_sqlite_interface.update_values(database_path, status_table, ('sender', 'receiver', 'data', 'timestamp'), tuple(message_array), 'sender', data[0])
-        # print("updated.")
+        rsu_sqlite_interface.insert_values(database_path, logging_table, message_array)   
     
     # In case the line does not exist, the values are inserted in status table and logged
     else:
+        # Status data updated
+        rsu_sqlite_interface.insert_values(database_path, status_table, message_array)
         # Loggin data always appended
         rsu_sqlite_interface.insert_values(database_path, logging_table, message_array)
-        # Status data only inserted if not present
-        rsu_sqlite_interface.insert_values(database_path, status_table, message_array)
         # print("device inserted.")
 
 def restart_database():
