@@ -1,18 +1,22 @@
 import datetime
 
-def check_time_difference(x, y, interval=5):
+def check_time_difference(t1, t2, seconds):
   """
-  Checks if the time difference between two datetime.now() timestamps is smaller than X seconds.
+  Checks if the time difference between two ISO 8601 formatted timestamps is smaller than 5 seconds.
 
   Args:
-    x: The first timestamp.
-    y: The second timestamp.
+    t1: The first timestamp.
+    t2: The second timestamp.
 
   Returns:
-    True if the difference is smaller than X seconds, False otherwise.
+    True if the difference is smaller than 5 seconds, False otherwise.
   """
 
-  now = datetime.datetime.now()
-  t1 = now + datetime.timedelta(seconds=x)
-  t2 = now + datetime.timedelta(seconds=y)
-  return (t1 - t2).total_seconds() < interval
+  t1 = datetime.datetime.fromisoformat(t1)
+  t2 = datetime.datetime.fromisoformat(t2)
+
+  print(t1)
+  print(t2)
+  print((t1 - t2).total_seconds())
+
+  return (t1 - t2).total_seconds() < seconds
