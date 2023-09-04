@@ -4,7 +4,7 @@ import rsu_database as rsu_db
 import datetime
 import json
 import sys
-# import helper
+import helper
 
 # Configs
 app = Flask(__name__)
@@ -36,43 +36,50 @@ def api_get_vehicle_list():
         'vehicles': []
     }
     for device in db_device_list:
-         # fazer testes para fornecer os dados de maneira correta
-        device_name = device['sender']
-        # device_data_dict = eval(device['data']).replace("'", '"') 
-        device_data_json = json.loads(device['data'])
+        vehicle_name = device['sender']
+        isConnected = False
+        isLeader = False
+        
+        vehicle_data_json = json.loads(device['data'])
         # print(type(device_data_json))
         
         # Acquiring data from JSON
         try:
-            velocity = device_data_json['velocity']
+            velocity = vehicle_data_json['velocity']
         except:
             pass
         try:
-            velocitySetpoint = device_data_json['velocitySetpoint']
+            velocitySetpoint = vehicle_data_json['velocitySetpoint']
         except:
             pass
         try:
-            angle = device_data_json['angle']
+            angle = vehicle_data_json['angle']
         except:
             pass
         try:
-            distance = device_data_json['distance']
+            distance = vehicle_data_json['distance']
         except:
             pass
         try:
-            distanceSetpoint = device_data_json['distanceSetpoint']
+            distanceSetpoint = vehicle_data_json['distanceSetpoint']
         except:
             pass
         try:
-            isLeader = device_data_json['isLeader']
+            if vehicle_data_json['isLeader'] == "True" or vehicle_data_json['isLeader'] == "true":
+                isLeader = True
+        except:
+            pass
+        try:
+            isConnected = helper.check_time_difference(datetime.datetime.now().isoformat(), device['timestamp'], 5)
         except:
             pass
 
         vehicles['vehicles'].append(
             {
                 'overview': {
-                    'name': device_name,
-                    'isLeader': str(isLeader),
+                    'name': vehicle_name,
+                    'isLeader': isLeader,
+                    'isConnected': isConnected,
                     'velocity': {
                         'icon': 'speed',
                         'value': str(velocity)
@@ -145,7 +152,7 @@ def api_update_vehicle():
             
             # The message is saved in the database - the timestamp is generated automatically
             # An array is generated with each field of the message: sender, receiver, data and the timestamp
-            message = [sender, receiver, data, datetime.datetime.now()]
+            message = [sender, receiver, data, datetime.datetime.now().isoformat()]
             rsu_db.update_vehicle(message)
             return '', 200
         except:

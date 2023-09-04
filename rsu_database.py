@@ -15,7 +15,6 @@ def update_vehicle(message_array):
     # If vehicle already present in status_table, the data is updated and logged
     if rsu_sqlite_interface.is_value_present(database_path, status_table, 'sender', message_array[0]):
         # Status data updated
-        # rsu_sqlite_interface.update_values(database_path, status_table, ('sender', 'receiver', 'data', 'timestamp'), tuple(message_array), 'sender', message_array[0])
         rsu_sqlite_interface.update_value(database_path, status_table, 'data', message_array[2], 'sender', message_array[0])
         rsu_sqlite_interface.update_value(database_path, status_table, 'timestamp', message_array[3], 'sender', message_array[0])
         # Logging data always appended    
