@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_bootstrap import Bootstrap5
-import rsu_database as rsu_db
+import rsu_data_manager as rsu_data
 import datetime
 import json
 import sys
@@ -14,24 +14,24 @@ bootstrap = Bootstrap5(app)
 
 @app.route('/', methods=['GET'])
 def web_home():
-    db_device_list = rsu_db.get_vehicle_list() # contains data regarding the connected devices
+    db_device_list = rsu_data.get_vehicle_list() # contains data regarding the connected devices
     return render_template('home.html', device_list=db_device_list, size=len(db_device_list))
 
 @app.route('/reset', methods=['GET'])
 def web_reset():
-    rsu_db.restart_database()
-    db_device_list = rsu_db.get_vehicle_list() # contains data regarding the connected devices
+    rsu_data.restart_database()
+    db_device_list = rsu_data.get_vehicle_list() # contains data regarding the connected devices
     return render_template('db_reset.html', device_list=db_device_list, size=len(db_device_list))
 
 @app.route('/vehicle/<vehicle_name>', methods=['GET'])
 def web_get_vehicle_logs(vehicle_name):
-    db_logs = rsu_db.get_vehicle_logs_json_list(vehicle_name)
+    db_logs = rsu_data.get_vehicle_logs_json_list(vehicle_name)
     # return f"Getting device information for {device_name}"
     return render_template('device.html', logs=db_logs, device_name=vehicle_name)
 
 @app.route('/api/vehicle/instant', methods=['GET'])
 def api_get_vehicle_list():
-    db_device_list = rsu_db.get_vehicle_list()
+    db_device_list = rsu_data.get_vehicle_list()
     vehicles = {
         'vehicles': []
     }
@@ -108,7 +108,7 @@ def api_get_vehicle_list():
 
 @app.route('/api/vehicle/<vehicle_name>', methods=['GET'])
 def api_get_vehicle_logs(vehicle_name):
-    db_logs = rsu_db.get_vehicle_logs_json_list(vehicle_name)
+    db_logs = rsu_data.get_vehicle_logs_json_list(vehicle_name)
     list_of_logs = []
 
     # Garantir conversão do elemento data em um dicionário na lista retornada na API
@@ -153,7 +153,7 @@ def api_update_vehicle():
             # The message is saved in the database - the timestamp is generated automatically
             # An array is generated with each field of the message: sender, receiver, data and the timestamp
             message = [sender, receiver, data, datetime.datetime.now().isoformat()]
-            rsu_db.update_vehicle(message)
+            rsu_data.update_vehicle(message)
             return '', 200
         except:
             errors.append(
@@ -165,7 +165,7 @@ def api_update_vehicle():
 if __name__ == '__main__':
     try:
         if sys.argv.index('--reset') != -1:
-            rsu_db.restart_database()
+            rsu_data.restart_database()
             app.run(debug=True, host='0.0.0.0', port=8000)
         else:
             app.run(debug=True, host='0.0.0.0', port=8000)
