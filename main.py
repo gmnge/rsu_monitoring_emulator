@@ -37,11 +37,17 @@ def api_get_vehicle_list():
     }
     for device in db_device_list:
         vehicle_name = device['sender']
+
+        # Default values
         isConnected = False
         isLeader = False
+        velocity = "ND"
+        velocitySetpoint = "ND"
+        angle = "ND"
+        distance = "ND"
+        distanceSetpoint = "ND"
         
         vehicle_data_json = json.loads(device['data'])
-        # print(type(device_data_json))
         
         # Acquiring data from JSON
         try:
@@ -82,11 +88,11 @@ def api_get_vehicle_list():
                     'isConnected': isConnected,
                     'velocity': {
                         'icon': 'speed',
-                        'value': str(velocity)
+                        'value': str(velocity)+" RPM"
                     },
                     'velocitySetpoint': {
                         'icon': 'bullseye-arrow',
-                        'value': str(velocitySetpoint)
+                        'value': str(velocitySetpoint)+" RPM"
                     },
                     'angle': {
                         'icon':'speed',
@@ -94,11 +100,11 @@ def api_get_vehicle_list():
                     },
                     'distance': {
                         'icon':'speed',
-                        'value': str(distance)
+                        'value': str(distance)+" m"
                     },
                     'distanceSetpoint': {
                         'icon':'bullseye-arrow',
-                        'value': str(distanceSetpoint)
+                        'value': str(distanceSetpoint)+" m"
                     }
                 }
             }
