@@ -1,15 +1,18 @@
 import datetime
 
-def has_record_within_seconds(logs, seconds):
-    current_time = datetime.now()
-    timestamps = []
-    
-    for log in logs:
-        timestamps.append(log['timestamp'])
+def check_time_difference(x, y, interval=5):
+  """
+  Checks if the time difference between two datetime.now() timestamps is smaller than X seconds.
 
-    for timestamp in timestamps:
-        time_diff = current_time - timestamp
-        if time_diff.total_seconds() < seconds:
-            return True
+  Args:
+    x: The first timestamp.
+    y: The second timestamp.
 
-    return False
+  Returns:
+    True if the difference is smaller than X seconds, False otherwise.
+  """
+
+  now = datetime.datetime.now()
+  t1 = now + datetime.timedelta(seconds=x)
+  t2 = now + datetime.timedelta(seconds=y)
+  return (t1 - t2).total_seconds() < interval
