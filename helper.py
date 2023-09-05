@@ -1,6 +1,6 @@
 import datetime
 
-def check_time_difference(t1, t2, seconds):
+def check_time_difference(timestamp, seconds):
   """
   Checks if the time difference between two ISO 8601 formatted timestamps is smaller than 5 seconds.
 
@@ -12,8 +12,8 @@ def check_time_difference(t1, t2, seconds):
     True if the difference is smaller than 5 seconds, False otherwise.
   """
 
-  t1 = datetime.datetime.fromisoformat(t1)
-  t2 = datetime.datetime.fromisoformat(t2)
+  t1 = datetime.datetime.now()
+  t2 = datetime.datetime.fromisoformat(timestamp)
 
   print(t1)
   print(t2)

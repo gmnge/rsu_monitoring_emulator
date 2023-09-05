@@ -76,7 +76,7 @@ def api_get_vehicle_list():
         except:
             pass
         try:
-            isConnected = helper.check_time_difference(datetime.datetime.now().isoformat(), device['timestamp'], 5)
+            isConnected = helper.check_time_difference(device['timestamp'], 5)
         except:
             pass
 
