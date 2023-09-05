@@ -39,43 +39,21 @@ def api_get_vehicle_list():
         vehicle_name = device['sender']
 
         # Default values
-        isConnected = False
-        isLeader = False
-        velocity = "ND"
-        velocitySetpoint = "ND"
-        angle = "ND"
-        distance = "ND"
-        distanceSetpoint = "ND"
-        
+        isLeader = isConnected = False
+        angle = distance = distanceSetpoint = velocity = velocitySetpoint = "ND"       
+
+        # Load data field into json variable 
         vehicle_data_json = json.loads(device['data'])
         
         # Acquiring data from JSON
         try:
             velocity = vehicle_data_json['velocity']
-        except:
-            pass
-        try:
             velocitySetpoint = vehicle_data_json['velocitySetpoint']
-        except:
-            pass
-        try:
             angle = vehicle_data_json['angle']
-        except:
-            pass
-        try:
             distance = vehicle_data_json['distance']
-        except:
-            pass
-        try:
             distanceSetpoint = vehicle_data_json['distanceSetpoint']
-        except:
-            pass
-        try:
             if vehicle_data_json['isLeader'] == "True" or vehicle_data_json['isLeader'] == "true":
                 isLeader = True
-        except:
-            pass
-        try:
             isConnected = helper.check_time_difference(device['timestamp'], 5)
         except:
             pass
@@ -88,23 +66,23 @@ def api_get_vehicle_list():
                     'isConnected': isConnected,
                     'velocity': {
                         'icon': 'speed',
-                        'value': str(velocity)+" RPM"
+                        'value': velocity+" RPM"
                     },
                     'velocitySetpoint': {
                         'icon': 'bullseye-arrow',
-                        'value': str(velocitySetpoint)+" RPM"
+                        'value': velocitySetpoint+" RPM"
                     },
                     'angle': {
                         'icon':'speed',
-                        'value': str(angle)
+                        'value': angle
                     },
                     'distance': {
                         'icon':'speed',
-                        'value': str(distance)+" m"
+                        'value': distance+" m"
                     },
                     'distanceSetpoint': {
                         'icon':'bullseye-arrow',
-                        'value': str(distanceSetpoint)+" m"
+                        'value': distanceSetpoint+" m"
                     }
                 }
             }
@@ -117,11 +95,9 @@ def api_get_vehicle_logs(vehicle_name):
     db_logs = rsu_data.get_vehicle_logs_json_list(vehicle_name)
     list_of_logs = []
 
-    # Garantir conversão do elemento data em um dicionário na lista retornada na API
+    # Converting data field into json element to be assigned to the 'list_of_logs' variable
     for log in db_logs:
         log['data'] = json.loads(log['data'])
-        # print(log['data'])
-        # print(type(log['data']))
         list_of_logs.append(log)
     
     return list_of_logs
