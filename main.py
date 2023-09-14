@@ -65,23 +65,23 @@ def api_get_vehicle_list():
                     'isLeader': isLeader,
                     'isConnected': isConnected,
                     'velocity': {
-                        'icon': 'speed',
+                        'icon': 'speedometer',
                         'value': velocity+" RPM"
                     },
                     'velocitySetpoint': {
-                        'icon': 'bullseye-arrow',
+                        'icon': 'speedometer',
                         'value': velocitySetpoint+" RPM"
                     },
                     'angle': {
-                        'icon':'speed',
+                        'icon':'angle-acute',
                         'value': angle
                     },
                     'distance': {
-                        'icon':'speed',
+                        'icon':'map-marker-distance',
                         'value': distance+" m"
                     },
                     'distanceSetpoint': {
-                        'icon':'bullseye-arrow',
+                        'icon':'map-marker-distance',
                         'value': distanceSetpoint+" m"
                     }
                 }
